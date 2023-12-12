@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: infra-app-ingress
+  annotations: 
+    haproxy.org/path-rewrite: "/"
+spec:
+  ingressClassName: haproxy
+  rules:
+  - host: localhost
+    http: 
+      paths:
+      - path: /route1
+        pathType: Prefix
+        backend:
+          service:
+            name: svc-coffee
+            port: 
+              number: 80
+      - path: /route2
+        pathType: Prefix
+        backend:
+          service:
+            name: svc-route-2
+            port: 
+              number: 80

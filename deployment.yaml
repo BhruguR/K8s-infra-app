@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffee
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coffee
+  template:
+    metadata:
+      labels:
+        app: coffee
+    spec:
+      containers:
+      - name: coffee
+        image: webserver
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: route-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: route-2
+  template:
+    metadata:
+      labels:
+        app: route-2
+    spec:
+      containers:
+      - name: route-2
+        image: route-2
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
