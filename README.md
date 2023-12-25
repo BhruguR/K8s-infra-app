@@ -103,6 +103,6 @@ helm status istiod -n istio-system
  kubectl get deployments -n istio-system --output wide
 ```
 
-###Credit / Reference:
+## Credit / Reference:
 1. Couldn't have gotten haproxy ingress down without this! 
    https://medium.com/@bm54cloud/deploy-an-haproxy-ingress-controller-on-a-k3d-kubernetes-cluster-3c88007eea36
