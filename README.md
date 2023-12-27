@@ -63,6 +63,7 @@ curl http://localhost:8082/route2
 Work is still in progress, and I am aware for the need to cut down on several of the manual steps to get this runing. However, it was important for me to release a bare-bones version, which I can utilize to build more stuff.
 
 # ISTIO
+Doesn't work yet, but work in-progress!
 
 ## Docker-Desktop
 First things first, I ran into this head first, but apparently Istiod (Istio Discovery Deployment Pod) requires 2 GiB memory to run, however Docker-Desktop is capped at approx. 2 GiB memory! Which means our istiod will never be ready if you are running something else in Docker!
