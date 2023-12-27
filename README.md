@@ -1,4 +1,4 @@
-# K8s-INFRA_APP
+# K8s-INFRA-APP
 The only real purpose of this repo is for me to practice and understand different k8s services.
 
 ## Ingress
