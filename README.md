@@ -4,9 +4,7 @@ The only real purpose of this repo is for me to practice and understand differen
 ## Ingress
 In the first interration of this repo, I have successfully created a Haproxy Ingress service, which will route to two different deployments, which in my case happen to be custom NGINX containers, that I quickly built locally. I intend to push there to docker hub, so some of the steps below can be omitted.
 
-<p align="center">
-  <img src="http://some_place.com/image.png](https://github.com/BhruguR/k8s-infra-app/assets/94770711/e5b3eae1-48da-485d-9d96-74c4162b1cda" />
-</p>
+![haproxy-ingress](https://github.com/BhruguR/k8s-infra-app/assets/94770711/c49b6649-ec58-4119-aabb-0db52e1673d9)
 
 ### Building local images
 In the future I'd like to package all of this in helm, but for now these are the steps:
