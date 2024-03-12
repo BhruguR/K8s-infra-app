@@ -19,7 +19,7 @@ spec:
         image: webserver
         imagePullPolicy: Never
         ports:
-        - containerPort: 8080
+        - containerPort: 80
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -42,4 +42,4 @@ spec:
         image: route-2
         imagePullPolicy: Never
         ports:
-        - containerPort: 8080
+        - containerPort: 80

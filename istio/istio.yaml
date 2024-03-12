@@ -2,19 +2,22 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: seneca-istio
+  namespace: istio-ingress
 spec:
   hosts:
-    - "localhost"
+  - "*"
+  gateways:
+  - my-gateway
   http:
-  - route:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
     - destination:
         host: svc-seneca
         subset: v1
-      weight: 0
-    - destination:
-        host: svc-seneca
-        subset: v2
-      weight: 100
+
+
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
