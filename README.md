@@ -87,6 +87,8 @@ We are not done yet, run this command to permanently start minikube with approx.
 minikube config set memory 3000
 ```
 
+Run: `cp /mnt/c/Users/{USER_ACCOUNT}/.kube/config ~/.kube` and change the formatting of `dir` to linux style. This will allow you to use kubectl in wsl. 
+
 ## Installing Istio with Helm
 
 If I don't use a package manager, I feel my stomach rumble (aka feel sick), so here are the steps to install Istio 1.20 with Helm, they slightly differ from the official steps, because the official steps didn't work for me, regardless here is the link https://istio.io/latest/docs/setup/install/helm/:
@@ -97,6 +99,8 @@ helm repo update
 kubectl create namespace istio-system
 helm install istio-base istio/base -n istio-system --set defaultRevision=default
 helm install istiod istio/istiod --namespace istio-system
+kubectl create namespace istio-ingress
+helm install istio-ingressgateway istio/gateway -n istio-ingress
 ```
 
 Checking if everything is running properly
