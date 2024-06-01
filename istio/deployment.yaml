@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seneca-v1
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: "30081"
+    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: seneca
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: seneca
+        version: v1
+        app.kubernetes.io/name: "seneca"
+    spec:
+      containers:
+      - name: coffee
+        image: django-route1
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seneca-v2
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: "80"
+    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: seneca
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: seneca
+        version: v2
+        app.kubernetes.io/name: "seneca"
+    spec:
+      containers:
+      - name: route-2
+        image: django-route2
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
