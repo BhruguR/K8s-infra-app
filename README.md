@@ -101,6 +101,7 @@ Networking in minikube is limited. I discovered that the CNI that comes with min
 minikube start --network-plugin=cni --cni=calico
 ```
 
+
 ## Installing Istio with Helm
 
 If I don't use a package manager, I feel my stomach rumble (aka feel sick), so here are the steps to install Istio 1.20 with Helm, they slightly differ from the official steps, because the official steps didn't work for me, regardless here is the link https://istio.io/latest/docs/setup/install/helm/:
@@ -121,9 +122,8 @@ helm ls -n istio-system
 helm status istiod -n istio-system
  kubectl get deployments -n istio-system --output wide
 ```
-# Prometheus
 
-<<<<<<< HEAD
+# Prometheus
 I quickly realized, I would be unable to set-up Istio without the help of prometheus and kiali, and this is because I need a way to verify that my istio set-up is indeed working in the expected way or not. Therefore, we first need to configure prometheus, and then connect kiali to prometheus. This as I found out was not trivial to do so and required considerable amount of reconfiguration.
 
 ## Installing prometheus
@@ -201,6 +201,7 @@ One key thing to note is the dockerfile config has to have:
 CMD ["python", "manage.py", "runserver", "0.0.0.0:80"]
 ```
 The last part of the command is super important, it will enable k8s to discover your pod and link it up to other pods.
+
 
 ## Credit / Reference:
 1. Couldn't have gotten haproxy ingress down without this! 

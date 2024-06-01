@@ -2,11 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: seneca-v1
+<<<<<<< HEAD
   annotations:
     prometheus.io/scrape: "true"
     prometheus.io/path: /metrics
     prometheus.io/port: "30081"
     
+=======
+>>>>>>> master
 spec:
   replicas: 1
   selector:
@@ -35,7 +38,6 @@ metadata:
     prometheus.io/scrape: "true"
     prometheus.io/path: /metrics
     prometheus.io/port: "80"
-    
 spec:
   replicas: 1
   selector:
