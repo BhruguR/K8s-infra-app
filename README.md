@@ -1,4 +1,4 @@
-# K8s-INFRA_APP
+# K8s-INFRA-APP
 The only real purpose of this repo is for me to practice and understand different k8s services.
 
 ## Ingress
@@ -123,6 +123,7 @@ helm status istiod -n istio-system
 ```
 # Prometheus
 
+<<<<<<< HEAD
 I quickly realized, I would be unable to set-up Istio without the help of prometheus and kiali, and this is because I need a way to verify that my istio set-up is indeed working in the expected way or not. Therefore, we first need to configure prometheus, and then connect kiali to prometheus. This as I found out was not trivial to do so and required considerable amount of reconfiguration.
 
 ## Installing prometheus
@@ -179,7 +180,7 @@ This finishes our prometheus set-up.
 
 ### Future ToDO:
 Hook-up prometheus-operator or the helm chart known as kube-prometheus-stack: 
-https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack
+![prometheus-operator](https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack)
 
 This enables us to hook-up pods and services to a monitor dynamically. 
 
@@ -200,8 +201,6 @@ One key thing to note is the dockerfile config has to have:
 CMD ["python", "manage.py", "runserver", "0.0.0.0:80"]
 ```
 The last part of the command is super important, it will enable k8s to discover your pod and link it up to other pods.
-
-https://stackoverflow.com/questions/71714919/unable-to-access-my-minikube-cluster-from-the-browser-because-you-are-using-a
 
 ## Credit / Reference:
 1. Couldn't have gotten haproxy ingress down without this! 
