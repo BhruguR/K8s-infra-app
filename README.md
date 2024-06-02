@@ -202,6 +202,50 @@ CMD ["python", "manage.py", "runserver", "0.0.0.0:80"]
 ```
 The last part of the command is super important, it will enable k8s to discover your pod and link it up to other pods.
 
+# Kiali
+Next step to get Istio down is Kiali. This will enable us to know whether our Istio config is indeed working or not. 
+
+Kiali seems to be less supported, consequently there seems to be less documentation out there for it making it difficult for me to find a solution which utilizes a values.yaml for kiali. Regardless, following the documentation we'd have to perform two manual steps:
+
+First step is getting it down via helm
+```
+helm repo add kiali https://kiali.org/helm-charts
+helm repo update
+helm install \
+    --set cr.create=true \
+    --set cr.namespace=istio-system \
+    --set cr.spec.auth.strategy="anonymous" \
+    --namespace kiali-operator \
+    --create-namespace \
+    kiali-operator \
+    kiali/kiali-operator
+```
+
+Second step is configuring the Kiali CR (Custom Resource). We first get it down in our directory:
+```
+kubectl get kiali -n istio-system -oyaml > kiali-cr.yaml
+```
+
+Next we add this to the Kiali CR file in the `spec` section:
+```
+external_services:
+  prometheus:
+    url: http://10.244.120.66:9090/
+```
+
+You might be wondering, "what is this random url?" Well, as you would have gussed it, it is our prometheus pods IP, and why do we need this? Well because we are developing this locally and minikube networking is not good (minikube admits this).
+
+By the way, if you want to find the prometheus pod IP, I am sure we can pull it out, but to be honest, just use:
+```
+kubectl get pods -n istio-system -o wide
+```
+Pick up the prometheu server's IP from there and paste it in the spec I mentioned above. 
+
+Ta-da! Kiali is hooked-up to prometheus.
+
+```
+kubectl port-forward svc/kiali 20001:20001 -n istio-system
+```
 
 ## Credit / Reference:
 1. Couldn't have gotten haproxy ingress down without this! 
