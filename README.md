@@ -93,6 +93,18 @@ minikube config set memory 3000
 
 Run: `cp /mnt/c/Users/{USER_ACCOUNT}/.kube/config ~/.kube` and change the formatting of `dir` to linux style. This will allow you to use kubectl in wsl. 
 
+## Service re-configuration
+
+Since we are attempting a canary deployment, I found over painful months that a kubectl port-forward won't do the trick to get this down, nor would normal destinationrules and virtualservice do the trick (more about that later). The gist of this is that you have to use a nodePort service and use a particular minikube tunnel command to get the nodeport working. This in the very least will give you a round robin 50-50 canary. To configure this traffic work, we'd have to work a bit more. Regardless, the nodeport service is straight-forward to configure but not so straight-forward to run.
+
+For some reason a port-forward even with a nodePort seems to contain your service internally to your minikube cluster, and typical: `curl $minikiube_ip:$nodeport` gives me a connection refused and port-forwarding won't give me the round robin, solution? On a nodePort service do this.
+
+```
+minikube service svc-seneca -n app --url
+```
+
+Done!
+
 ## Installing Calico
 
 Networking in minikube is limited. I discovered that the CNI that comes with minikube is not enough, hence the need for Calico. Luckily, Calico comes packaged with minikube, we simply run:
@@ -230,7 +242,7 @@ Next we add this to the Kiali CR file in the `spec` section:
 ```
 external_services:
   prometheus:
-    url: http://10.244.120.66:9090/
+    url: 10.244.120.125:9090
 ```
 
 You might be wondering, "what is this random url?" Well, as you would have gussed it, it is our prometheus pods IP, and why do we need this? Well because we are developing this locally and minikube networking is not good (minikube admits this).
@@ -246,6 +258,65 @@ Ta-da! Kiali is hooked-up to prometheus.
 ```
 kubectl port-forward svc/kiali 20001:20001 -n istio-system
 ```
+## Creating an ingress-gateway
+
+The istio ingress gateway works, we specify a host for it to be on, and we specify a host our service is at, since this is minikube, we just use the wildcard, but future work will include using CoreDNS to configure custom domains. 
+
+Regardless, that's one of the main points, other is getting the label to our istio-ingress pod right, this is `ingress` by default, but if you want to verify it:
+
+1. Go to the ns where your istio-ingress pods are at, if you don't have an istio-ingress pod, check my steps `istio` section above.
+2. We then run `kubectl get pods istio-ingress --show-labels`, and cross-check the labels accordingly.
+
+## Configuring a virtualService and destinationRule
+
+This honestly is super confusing and tricky, and the documentations just don't do justice to these topics for a noobie like me. Therefore, I used a cheat code.
+
+Well, not literally, all our hardwork to get kiali down will now pay-off. We go to kiali, select our service, there will be an `actions` tab, we choose `traffic shifting` (name may change in the future), we select `show advanced options`, click `preview`, copy paste these config to a yaml file, for us this is the `ingress-gateway.yaml` file.
+
+Now, these configs are in fact not 'right', we have to tweak them a bit to get these to attach to our istio-ingress gateway. 
+
+### Background
+As a tangent, virtualService is not really an abstraction of services, but rather it is a way to configure an ingress gateway's traffic routing (amongst other things). DestinationRule on the otherhand, works in tandem with a virtualservice and specifies subsets.
+
+You may ask, "subsets?" Well, let's take a step back to understand how a destinationrule works. A virtualservice attaches to our service, but a destination rule specifies how and what to pick from our pods pointed by the service selected by the virtualService. That's a mouthful, but this might help:
+
+ingress -> virtualservice -> service
+ingress -> destinationrule -> service -> pod labels
+
+So subsets are esentially a way to specify the labels of a pod, the way we configure a canary is by giving two labels: first one is the same and applies to both pods, the second is different, which is `version` for us.
+
+It is a dance of interconnections. 
+
+### Reconfiguration
+
+Now that we know the background, we go back to our virtualservice. 
+
+1. We match the host specified in our ingress gateway.
+2. Pick the gateway name that we gave to our gateway in the metadata section our istio ingress gateway.
+
+For destination rule, we match the host as the one specified in the gateway.
+
+Apply the file.
+
+## Exposing our ingress-gateway
+
+This is a crude way in which I have done this, but similar to a nodePort, we run:
+
+```
+minikube service istio-ingress -n istio-ingress --url
+```
+
+It will spit out three urls, open all of those up (I know inefficient, need to modify it later, I am just excited to get this down XD). 
+
+The middle one is the one that works for me, which is the `http2` port. Not sure why only that one works as of right now, regardless at least one works.
+
+Reload a bit and find out if our configs work. I haven't configured the header properly yet, so we cannot run a while loop in our cli along with curl to easily decipher which link was opened. However, manual refresh using our browser works equally well. It should roughly correspond to our weights defined in our virtualservice.
+
+Set this to extreme values and flip these (93 and 7 for me) to ensure it is working as you expect.
+
+As a final sanity check, open kiali, traffic graph, select only the `app` namespace, display, traffic distribution. 
+
+And with that we reach the end of this journey, although a lot of clean-up is needed, but a PoC is finally DOWN!
 
 ## Credit / Reference:
 1. Couldn't have gotten haproxy ingress down without this! 

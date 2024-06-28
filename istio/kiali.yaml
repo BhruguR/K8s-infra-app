@@ -6,10 +6,10 @@ items:
     annotations:
       ansible.sdk.operatorframework.io/verbosity: "1"
       kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"kiali.io/v1alpha1","kind":"Kiali","metadata":{"annotations":{"ansible.sdk.operatorframework.io/verbosity":"1","meta.helm.sh/release-name":"kiali-operator","meta.helm.sh/release-namespace":"kiali-operator"},"creationTimestamp":"2024-06-02T05:37:07Z","finalizers":["kiali.io/finalizer"],"generation":1,"labels":{"app":"kiali-operator","app.kubernetes.io/instance":"kiali-operator","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"kiali-operator","app.kubernetes.io/part-of":"kiali-operator","app.kubernetes.io/version":"v1.85.0","helm.sh/chart":"kiali-operator-1.85.0","version":"v1.85.0"},"name":"kiali","namespace":"istio-system","resourceVersion":"149876","uid":"75d4fd5a-8ee2-4ab1-a4f8-bee86b63648c"},"spec":{"auth":{"strategy":"anonymous"},"deployment":{"accessible_namespaces":["**"]},"external_services":{"prometheus":{"custom_metrics_url":"http://10.244.120.66:9090/","url":"http://10.244.120.66:9090/"}}},"status":{"conditions":[{"ansibleResult":{"changed":11,"completion":"2024-06-02T05:38:45.931876","failures":0,"ok":72,"skipped":56},"lastTransitionTime":"2024-06-02T05:37:18Z","message":"Awaiting next reconciliation","reason":"Successful","status":"True","type":"Running"},{"lastTransitionTime":"2024-06-02T05:38:50Z","message":"Last reconciliation succeeded","reason":"Successful","status":"True","type":"Successful"},{"lastTransitionTime":"2024-06-02T05:38:50Z","message":"","reason":"","status":"False","type":"Failure"}],"deployment":{"accessibleNamespaces":"**","instanceName":"kiali","namespace":"istio-system"},"environment":{"isKubernetes":true,"kubernetesVersion":"1.30.0","operatorVersion":"v1.85.0"},"progress":{"duration":"0:01:16","message":"6. Finished all resource creation"},"specVersion":"default"}}
+        {"apiVersion":"kiali.io/v1alpha1","kind":"Kiali","metadata":{"annotations":{"ansible.sdk.operatorframework.io/verbosity":"1","meta.helm.sh/release-name":"kiali-operator","meta.helm.sh/release-namespace":"kiali-operator"},"creationTimestamp":"2024-06-28T02:07:52Z","finalizers":["kiali.io/finalizer"],"generation":1,"labels":{"app":"kiali-operator","app.kubernetes.io/instance":"kiali-operator","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"kiali-operator","app.kubernetes.io/part-of":"kiali-operator","app.kubernetes.io/version":"v1.85.0","helm.sh/chart":"kiali-operator-1.85.0","version":"v1.85.0"},"name":"kiali","namespace":"istio-system","resourceVersion":"266767","uid":"92547b86-7f7c-4bdf-9dfa-d8e9ba152e8c"},"spec":{"auth":{"strategy":"anonymous"},"deployment":{"accessible_namespaces":["**"]},"external_services":{"prometheus":{"url":"http://10.244.120.125:9090/"}}},"status":{"conditions":[{"ansibleResult":{"changed":11,"completion":"2024-06-28T02:09:22.618955","failures":0,"ok":72,"skipped":56},"lastTransitionTime":"2024-06-28T02:07:57Z","message":"Awaiting next reconciliation","reason":"Successful","status":"True","type":"Running"},{"lastTransitionTime":"2024-06-28T02:09:23Z","message":"Last reconciliation succeeded","reason":"Successful","status":"True","type":"Successful"},{"lastTransitionTime":"2024-06-28T02:09:23Z","message":"","reason":"","status":"False","type":"Failure"}],"deployment":{"accessibleNamespaces":"**","instanceName":"kiali","namespace":"istio-system"},"environment":{"isKubernetes":true,"kubernetesVersion":"1.30.0","operatorVersion":"v1.85.0"},"progress":{"duration":"0:00:59","message":"6. Finished all resource creation"},"specVersion":"default"}}
       meta.helm.sh/release-name: kiali-operator
       meta.helm.sh/release-namespace: kiali-operator
-    creationTimestamp: "2024-06-02T05:37:07Z"
+    creationTimestamp: "2024-06-28T02:07:52Z"
     finalizers:
     - kiali.io/finalizer
     generation: 2
@@ -24,8 +24,8 @@ items:
       version: v1.85.0
     name: kiali
     namespace: istio-system
-    resourceVersion: "150525"
-    uid: 75d4fd5a-8ee2-4ab1-a4f8-bee86b63648c
+    resourceVersion: "268186"
+    uid: 92547b86-7f7c-4bdf-9dfa-d8e9ba152e8c
   spec:
     auth:
       strategy: anonymous
@@ -34,26 +34,25 @@ items:
       - '**'
     external_services:
       prometheus:
-        url: http://10.244.120.66:9090/
+        url: http://10.244.120.125:9090/
   status:
     conditions:
-    - lastTransitionTime: "2024-06-02T05:38:50Z"
+    - lastTransitionTime: "2024-06-28T02:09:23Z"
       message: ""
       reason: ""
       status: "False"
       type: Failure
-    - lastTransitionTime: "2024-06-02T05:38:50Z"
+    - lastTransitionTime: "2024-06-28T02:09:23Z"
       message: Last reconciliation succeeded
       reason: Successful
       status: "False"
       type: Successful
-    - lastTransitionTime: "2024-06-02T05:37:18Z"
+    - lastTransitionTime: "2024-06-28T02:07:57Z"
       message: Running reconciliation
       reason: Running
       status: "True"
       type: Running
     deployment:
-      accessibleNamespaces: '**'
       instanceName: kiali
       namespace: istio-system
     environment:
@@ -61,8 +60,8 @@ items:
       kubernetesVersion: 1.30.0
       operatorVersion: v1.85.0
     progress:
-      duration: "0:01:16"
-      message: 6. Finished all resource creation
+      duration: "0:00:42"
+      message: 5. Creating core resources
     specVersion: default
 kind: List
 metadata:

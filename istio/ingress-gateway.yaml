@@ -1,0 +1,55 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  namespace: istio-ingress
+  name: seneca-gateway
+spec:
+  # The selector matches the ingress gateway pod labels.
+  # If you installed Istio using Helm following the standard documentation, this would be "istio=ingress"
+  selector:
+    istio: ingress
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+kind: VirtualService
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  namespace: istio-ingress
+  name: svc-seneca
+  labels:
+    kiali_wizard: traffic_shifting
+spec:
+  http:
+    - route:
+        - destination:
+            host: svc-seneca.app.svc.cluster.local
+            subset: v1
+          weight: 93
+        - destination:
+            host: svc-seneca.app.svc.cluster.local
+            subset: v2
+          weight: 7
+  hosts:
+    - '*'
+  gateways:
+    - seneca-gateway
+---
+kind: DestinationRule
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  namespace: istio-ingress
+  name: svc-seneca
+spec:
+  host: "*"
+  subsets:
+    - name: v1
+      labels:
+        version: v1
+    - name: v2
+      labels:
+        version: v2
