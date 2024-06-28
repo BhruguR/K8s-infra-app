@@ -7,15 +7,20 @@ spec:
   hosts:
   - "*"
   gateways:
-  - my-gateway
+  - istio-ingress
   http:
   - match:
     - uri:
         prefix: "/"
     route:
     - destination:
-        host: svc-seneca
+        host: svc-seneca.app.svc.cluster.local
         subset: v1
+      weight: 51
+    - destination:
+        host: svc-seneca.app.svc.cluster.local
+        subset: v2
+      weight: 49
 
 
 ---
@@ -24,7 +29,7 @@ kind: DestinationRule
 metadata:
   name: helloworld
 spec:
-  host: svc-seneca
+  host: svc-seneca.app.svc.cluster.local
   subsets:
   - name: v1
     labels:
