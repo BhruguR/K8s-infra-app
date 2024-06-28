@@ -318,6 +318,8 @@ As a final sanity check, open kiali, traffic graph, select only the `app` namesp
 
 And with that we reach the end of this journey, although a lot of clean-up is needed, but a PoC is finally DOWN!
 
+![image](https://github.com/BhruguR/k8s-infra-app/assets/94770711/bf0ea6e9-05c7-4483-a303-84f539dcd16d)
+
 ## Credit / Reference:
 1. Couldn't have gotten haproxy ingress down without this! 
    https://medium.com/@bm54cloud/deploy-an-haproxy-ingress-controller-on-a-k3d-kubernetes-cluster-3c88007eea36
